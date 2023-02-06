@@ -2,7 +2,7 @@ import React from "react";
 // import { useState } from "react";
 import { nanoid } from 'nanoid'
 import { useSelector, useDispatch } from 'react-redux';
-import { nameChange, numberChange, nameReset, numberReset } from "redux/actions";
+import { nameChange, numberChange, nameReset, numberReset } from "redux/store";
 import {FormEl, Label, Button, Input} from './App.styled'
 
 

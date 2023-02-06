@@ -5,7 +5,7 @@ import Form from './Form/Form';
 import Contacts from "./Form/Contacts";
 import Filter from './Form/Filter';
 import { Title, TitleContacts, TitleFind, WrapToFind } from './Form/App.styled'
-import { addContact, deleteContact, filterChange } from 'redux/actions';
+import { addContact, deleteContact, filterChange } from 'redux/store';
 
 
 
