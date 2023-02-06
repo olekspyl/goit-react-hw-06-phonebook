@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { addContact, deleteContact, filterChange } from "./actions";
+import { addContact, deleteContact, filterChange, nameChange, numberChange, nameReset, numberReset } from "./actions";
 
 
 const contactsInitialState = JSON.parse(window.localStorage.getItem('contacts')) ?? [];
@@ -10,13 +10,21 @@ export const contactsReducer = createReducer(contactsInitialState, {
 });
 
 
-
-
 const filterInitialState = "";
 export const filterReducer = createReducer(filterInitialState, {
-  [filterChange]: (state, action) => {return state = action.payload.target.value},
+  [filterChange]: (state, action) => {return state = action.payload},
 });
 
 
+const nameInitialState = "";
+export const nameReducer = createReducer(nameInitialState, {
+  [nameChange]: (state, action) => { return state = action.payload },
+  [nameReset]: (state, action) => { return state = action.payload },
+});
 
+const numberInitialState = "";
+export const numberReducer = createReducer(numberInitialState, {
+  [numberChange]: (state, action) => { return state = action.payload },
+  [numberReset]: (state, action) => { return state = action.payload },
+});
 

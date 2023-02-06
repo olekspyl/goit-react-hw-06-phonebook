@@ -24,7 +24,7 @@ export default function App() {
 
   const formFilterChange = e => 
     // setFilter(e.target.value);
-    dispatch(filterChange(e));
+    dispatch(filterChange(e.target.value));
 
   const getVisibleContacts = () => {
     const filteredContacts = contacts.filter(contact =>

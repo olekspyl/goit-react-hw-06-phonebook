@@ -1,28 +1,33 @@
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import { nanoid } from 'nanoid'
+import { useSelector, useDispatch } from 'react-redux';
+import { nameChange, numberChange, nameReset, numberReset } from "redux/actions";
 import {FormEl, Label, Button, Input} from './App.styled'
 
 
 export default function Form({onSubmit}) {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
   const id = nanoid();
+  const dispatch = useDispatch();
+  const nameContact = useSelector(state => state.name);
+  const numberContact = useSelector(state => state.number);
+
 
 // ще один варіант рішення
 //   const [form, setForm] = useState({ name: '', number: '' });
 //   const handleChange = e => {    const { name, value } = e.currentTarget;    setForm(prevForm => ({ ...prevForm, [name]: value }));  };
   
- const handleChange = e => {
-    e.target.value.trim();
-    const { name, value } = e.target;
-
+  
+  
+  const handleChange = e => {
+   const { name, value } = e.target;
+    value.trim();
     switch (name) {
       case 'name':
-        setName(value);
+       dispatch(nameChange(value));
         break;
       case 'number':
-        setNumber(value);
+        dispatch(numberChange(value));
         break;
       default:
         return;
@@ -30,21 +35,20 @@ export default function Form({onSubmit}) {
   }; 
 
   const reset = () => {
-    setNumber('');
-    setName('');
+    dispatch(nameReset(''))
+    dispatch(numberReset(''))
   };
 
   const handleSubmit = e => {
     e.preventDefault();    
     const data = {
       id,
-      name,
-      number,
+      name: nameContact,
+      number: numberContact,
     };
     onSubmit(data);
     reset();
   };
-
 
    return (
     <FormEl onSubmit={handleSubmit}>
@@ -54,7 +58,7 @@ export default function Form({onSubmit}) {
         id={id}
         type="text"
         name="name"
-        value={name}
+        value={nameContact}
         onChange={handleChange}
         required
       />
@@ -65,7 +69,7 @@ export default function Form({onSubmit}) {
         id={id}
         type="tel"
         name="number"
-        value={number}
+        value={numberContact}
         onChange={handleChange}
         required
       />
