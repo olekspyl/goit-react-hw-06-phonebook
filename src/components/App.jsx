@@ -1,11 +1,11 @@
 import React from 'react';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Form from './Form/Form';
 import Contacts from "./Form/Contacts";
 import Filter from './Form/Filter';
 import { Title, TitleContacts, TitleFind, WrapToFind } from './Form/App.styled'
-import { addContact, deleteContact, filterChange } from 'redux/store';
+import { addContact, deleteContact, filterChange } from 'redux/slices';
 
 
 
@@ -17,9 +17,9 @@ export default function App() {
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
   
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts))
-  }, [contacts]);
+  // useEffect(() => {
+  //   window.localStorage.setItem('contacts', JSON.stringify(contacts))
+  // }, [contacts]);
 
 
   const formFilterChange = e => 
@@ -27,10 +27,9 @@ export default function App() {
     dispatch(filterChange(e.target.value));
 
   const getVisibleContacts = () => {
-    const filteredContacts = contacts.filter(contact =>
+    return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
-    return filteredContacts;
   };
 
   const deleteItem = (id) => {
