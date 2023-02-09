@@ -1,56 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {persistReducer} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import { init } from "./constants";
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['items'],
+};
 
 export const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: JSON.parse(window.localStorage.getItem('contacts')) ?? [],
+  initialState: {items: init, filter: ''},
   reducers: {
-    addContact(state, action) {
-      return [...state, action.payload]
+    addContact(state, { payload }) {
+      return state.items.push(payload);
     },
-    deleteContact(state, action) {
-      return state.filter(contact => contact.id !== action.payload)
-    }
-  }
-});
-export const { addContact, deleteContact } = contactsSlice.actions;
-
-
-export const filterSlice = createSlice({
-  name: 'filter',
-  initialState: "",
-  reducers: {
-   filterChange(state, action) {
-      return state = action.payload
-    }
-  }
-});
-export const { filterChange } = filterSlice.actions;
-
-
-export const nameSlice = createSlice({
-  name: 'name',
-  initialState: "",
-  reducers: {
-   nameChange(state, action) {
-      return state = action.payload
+    deleteContact(state, { payload }) {
+      return state.items.filter(contact => contact.id !== payload);
     },
-    nameReset(state, action) {
-      return state = action.payload
+    changeFilter(state, { payload }) {
+      return {...state, filter: payload}
     },
   }
 });
-export const { nameChange, nameReset } = nameSlice.actions;
+export const { addContact, deleteContact, changeFilter } = contactsSlice.actions;
 
-export const numberSlice = createSlice({
-  name: 'number',
-  initialState: "",
-  reducers: {
-   numberChange(state, action) {
-      return state = action.payload
-    },
-    numberReset(state, action) {
-      return state = action.payload
-    },
-  }
-});
-export const { numberChange, numberReset } = numberSlice.actions;
+
+export const contactsReducer = persistReducer(persistConfig, contactsSlice.reducer);
+

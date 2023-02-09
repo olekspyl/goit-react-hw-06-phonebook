@@ -1,75 +1,66 @@
 import React from "react";
-// import { useState } from "react";
+import { useState } from "react";
+import {useDispatch, useSelector } from "react-redux"; 
 import { nanoid } from 'nanoid'
-import { useSelector, useDispatch } from 'react-redux';
-import { nameChange, numberChange, nameReset, numberReset } from "redux/slices";
-import {FormEl, Label, Button, Input} from './App.styled'
+import { FormEl, Label, Button, Input } from '../App.styled'
+import { addContact } from "redux/slices";
+import { getContacts } from "redux/selector";
 
 
-export default function Form({onSubmit}) {
+export default function Form() {
+  const [form, setForm] = useState({ name: '', number: '' });
   const id = nanoid();
   const dispatch = useDispatch();
-  const nameContact = useSelector(state => state.name);
-  const numberContact = useSelector(state => state.number);
+  const contacts = useSelector(getContacts);
 
-
-// ще один варіант рішення
-//   const [form, setForm] = useState({ name: '', number: '' });
-//   const handleChange = e => {    const { name, value } = e.currentTarget;    setForm(prevForm => ({ ...prevForm, [name]: value }));  };
-  
-  
-  
   const handleChange = e => {
-   const { name, value } = e.target;
-    value.trim();
-    switch (name) {
-      case 'name':
-       dispatch(nameChange(value));
-        break;
-      case 'number':
-        dispatch(numberChange(value));
-        break;
-      default:
-        return;
-    }
-  }; 
+    const { name, value } = e.currentTarget;
+    setForm(prevForm => ({ ...prevForm, [name]: value }));
+    console.log(e)
+  };
 
   const reset = () => {
-    dispatch(nameReset(''))
-    dispatch(numberReset(''))
+    setForm('');
   };
 
   const handleSubmit = e => {
-    e.preventDefault();    
-    const data = {
+    e.preventDefault();
+    const form = e.target.elements.login.value;
+    
+    const initData = {
       id,
-      name: nameContact,
-      number: numberContact,
+      name: form.name,
+      number: form.number,
     };
-    onSubmit(data);
+
+    if (contacts.find(contact => contact.name === initData.name)) {
+      return alert(`Contact ${initData.name} ia already in phonebook`);
+    }
+
+    dispatch(addContact(initData));
     reset();
   };
 
    return (
     <FormEl onSubmit={handleSubmit}>
-    <Label htmlFor={id}>
+    <Label htmlFor="name">
       Name
       <Input
         id={id}
         type="text"
         name="name"
-        value={nameContact}
+        value={form.name}
         onChange={handleChange}
         required
       />
     </Label>
-    <Label htmlFor={id}>
+    <Label htmlFor="number">
       Phone number
       <Input
         id={id}
         type="tel"
         name="number"
-        value={numberContact}
+        value={form.number}
         onChange={handleChange}
         required
       />
