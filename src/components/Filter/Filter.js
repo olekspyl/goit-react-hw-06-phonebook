@@ -9,16 +9,15 @@ const Filter = () => {
   const dispatch = useDispatch();
 
   
- const formFilterChange = e => 
-    dispatch(changeFilter(e.target.value));
-
   return (
     <label>
       <input
         type="text"
         name="filter"
         value={filter}
-        onChange={formFilterChange}
+        onChange={
+          e => dispatch(changeFilter(e.target.value))
+        }
       />
     </label>
   )

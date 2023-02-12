@@ -5,8 +5,6 @@ import Filter from './Filter';
 import { Title, TitleContacts, TitleFind, WrapToFind } from './App.styled'
 
 
-
-
 export default function App() {
   return (
     <div>

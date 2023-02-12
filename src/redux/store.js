@@ -5,9 +5,7 @@ import { contactsReducer } from "./slices";
 
 
 export const store = configureStore({
-  reducer: {
-    contacts: contactsReducer,
-  },
+  reducer: contactsReducer, 
   middleware(getDefaultMiddleware) {
     return getDefaultMiddleware({
       serializableCheck: {

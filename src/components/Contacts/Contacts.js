@@ -5,6 +5,7 @@ import {deleteContact} from "redux/slices";
 import {ListItem, DeleteButton} from '../App.styled'
 
 
+
 const Contacts = () => {
     const contacts = useSelector(getContacts);
     const filter = useSelector(getFilter);
@@ -12,7 +13,11 @@ const Contacts = () => {
     
     
     const getVisibleContacts = () => {
-        return contacts.filter(contact => contact.name.toLowerCase().includes(filter.trim().toLowerCase()))
+        if (!contacts) {
+            return;
+        }
+        return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+        
     };
     
     return (
@@ -22,7 +27,7 @@ const Contacts = () => {
             {getVisibleContacts().map(({id, name, number}) => {
                 return (
                     <ListItem key={id}>{name} {number}
-                        <DeleteButton onClick={() =>  dispatch(deleteContact(id))}>Delete</DeleteButton>
+                        <DeleteButton onClick={() =>  dispatch(deleteContact({id}))}>Delete</DeleteButton>
                     </ListItem>
                 )
             })}
